@@ -12,7 +12,20 @@ def nlog_likelihood(beta, counts):
     return likelihood
 
 def get_power_law_params(word_counts):
-    """Get the power law parameters."""
+    """Get the power law parameters.
+    References 
+    ----------
+    Moreno-Sanchez et al (2016) define alpha (Eq. 1),
+    beta eq2 and the maximum likelihood estimation (mle)
+    of beta eq6.
+
+    Moreno-Sanchez I, Font-Clos F, Corral A (2016)
+    Large-Scale Analysis of Zipf's Law in English Texts.
+    PloS One 11(1): e0147072
+    
+    """
+
+    
     mle = minimize_scalar(nlog_likelihood, bracket = (1 + 1e-10, 4), args = word_counts, method = 'brent')
     beta = mle.x
     alpha = 1 / (beta - 1)
